@@ -47,6 +47,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             case R.id.action_insert_dummy_data:
                 insertDummyData();
                 return true;
+            case R.id.action_delete_data:
+                deleteData();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -63,6 +66,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         values.put(InventoryEntry.COLUMN_INVENTORY_PRICE, 1000);
 
         getContentResolver().insert(InventoryEntry.CONTENT_URI, values);
+    }
+
+    private void deleteData() {
+        getContentResolver().delete(InventoryEntry.CONTENT_URI, null, null);
     }
 
     @Override
