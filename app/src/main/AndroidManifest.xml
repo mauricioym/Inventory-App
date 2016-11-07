@@ -15,10 +15,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".DetailActivity"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
         <provider
-            android:authorities="com.yuddi.inventoryapp"
             android:name=".data.InventoryProvider"
-            android:exported="false"/>
+            android:authorities="com.yuddi.inventoryapp"
+            android:exported="false" />
     </application>
 
 </manifest>

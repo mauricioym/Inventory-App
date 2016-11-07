@@ -5,8 +5,8 @@
     tools:context=".MainActivity">
 
     <item
-        android:id="@+id/action_insert_new_product"
-        android:title="@string/action_insert_new_product"
+        android:id="@+id/action_add_product"
+        android:title="@string/action_add_product"
         app:showAsAction="never" />
 
     <item
