@@ -8,11 +8,11 @@ import android.provider.BaseColumns;
  * Created by Mauricio on 11/7/2016.
  */
 
-public class InventoryContract {
+public final class InventoryContract {
 
-    private static final String CONTENT_AUTHORITY = "com.yuddi.inventoryapp";
+    public static final String CONTENT_AUTHORITY = "com.yuddi.inventoryapp";
     private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
-    private static final String PATH_INVENTORY = "inventory";
+    public static final String PATH_INVENTORY = "inventory";
 
     private InventoryContract() {
         throw new AssertionError("No InventoryContract instances for you!");
