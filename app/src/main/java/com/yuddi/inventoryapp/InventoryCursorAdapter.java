@@ -1,7 +1,12 @@
 package com.yuddi.inventoryapp;
 
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,19 +33,39 @@ public class InventoryCursorAdapter extends CursorAdapter {
         View view = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
 
         ViewHolder holder = new ViewHolder();
-        holder.name = (TextView) view.findViewById(R.id.list_item_name);
-        holder.quantity = (TextView) view.findViewById(R.id.list_item_quantity);
-        holder.price = (TextView) view.findViewById(R.id.list_item_price);
-        holder.sale = (Button) view.findViewById(R.id.list_item_sale);
-        holder.sale.setOnClickListener(new View.OnClickListener() {
+        holder.nameTextView = (TextView) view.findViewById(R.id.list_item_name);
+        holder.quantityTextView = (TextView) view.findViewById(R.id.list_item_quantity);
+        holder.priceTextView = (TextView) view.findViewById(R.id.list_item_price);
+        holder.saleButton = (Button) view.findViewById(R.id.list_item_sale);
+        holder.saleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                View listItem = (View) view.getParent();
+                final ViewHolder holder = (ViewHolder) listItem.getTag();
+
+                if (holder.quantity > 0) {
+
+                    holder.quantity--;
+                    updateQuantity(context, holder);
+
+                    final CoordinatorLayout coordinatorLayout = (CoordinatorLayout) view.getRootView().findViewById(R.id.coordinator_layout);
+                    Snackbar snackbar = Snackbar
+                            .make(coordinatorLayout, "Sale was made", Snackbar.LENGTH_LONG)
+                            .setAction("Undo", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    holder.quantity++;
+                                    updateQuantity(context, holder);
+
+                                    Snackbar snackbar1 = Snackbar.make(coordinatorLayout, "Sale was cancelled", Snackbar.LENGTH_SHORT);
+                                    snackbar1.show();
+                                }
+                            });
+                    snackbar.show();
+                }
             }
         });
-        holder.nameColumnIndex = cursor.getColumnIndexOrThrow(InventoryEntry.COLUMN_INVENTORY_NAME);
-        holder.quantityColumnIndex = cursor.getColumnIndexOrThrow(InventoryEntry.COLUMN_INVENTORY_QUANTITY);
-        holder.priceColumnIndex = cursor.getColumnIndexOrThrow(InventoryEntry.COLUMN_INVENTORY_PRICE);
 
         view.setTag(holder);
 
@@ -52,24 +77,41 @@ public class InventoryCursorAdapter extends CursorAdapter {
 
         ViewHolder holder = (ViewHolder) view.getTag();
 
-        String productName = cursor.getString(holder.nameColumnIndex);
-        int quantity = cursor.getInt(holder.quantityColumnIndex);
-        float price = cursor.getInt(holder.priceColumnIndex) / 100f;
+        int idColumnIndex = cursor.getColumnIndexOrThrow(InventoryEntry._ID);
+        int nameColumnIndex = cursor.getColumnIndexOrThrow(InventoryEntry.COLUMN_INVENTORY_NAME);
+        int quantityColumnIndex = cursor.getColumnIndexOrThrow(InventoryEntry.COLUMN_INVENTORY_QUANTITY);
+        int priceColumnIndex = cursor.getColumnIndexOrThrow(InventoryEntry.COLUMN_INVENTORY_PRICE);
 
-        holder.name.setText(productName);
-        holder.quantity.setText(context.getString(R.string.stock_quantity, quantity));
-        holder.price.setText(NumberFormat.getCurrencyInstance().format(price));
+        holder.id = cursor.getInt(idColumnIndex);
+        String name = cursor.getString(nameColumnIndex);
+        holder.quantity = cursor.getInt(quantityColumnIndex);
+        float price = cursor.getInt(priceColumnIndex) / 100f;
+
+        holder.nameTextView.setText(name);
+        holder.quantityTextView.setText(context.getString(R.string.stock_quantity, holder.quantity));
+        holder.priceTextView.setText(NumberFormat.getCurrencyInstance().format(price));
+    }
+
+    private void updateQuantity(Context context, ViewHolder holder) {
+
+        holder.quantityTextView.setText(context.getString(R.string.stock_quantity, holder.quantity));
+
+        ContentValues values = new ContentValues();
+        values.put(InventoryEntry.COLUMN_INVENTORY_QUANTITY, holder.quantity);
+
+        Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, holder.id);
+
+        context.getContentResolver().update(uri, values, null, null);
     }
 
     private static class ViewHolder {
-        TextView name;
-        TextView quantity;
-        TextView price;
-        Button sale;
+        TextView nameTextView;
+        TextView quantityTextView;
+        TextView priceTextView;
+        Button saleButton;
 
-        int nameColumnIndex;
-        int quantityColumnIndex;
-        int priceColumnIndex;
+        int id;
+        int quantity;
     }
 
 }
