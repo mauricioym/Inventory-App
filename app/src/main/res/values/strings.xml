@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Inventory App</string>
     <string name="sale_button_text">Sale</string>
+    <string name="action_insert_new_product">Insert new product</string>
 </resources>
