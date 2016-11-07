@@ -1,5 +1,6 @@
 package com.yuddi.inventoryapp;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -43,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             case R.id.action_insert_new_product:
                 insertNewProduct();
                 return true;
+            case R.id.action_insert_dummy_data:
+                insertDummyData();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -50,6 +54,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private void insertNewProduct() {
 
+    }
+
+    private void insertDummyData() {
+        ContentValues values = new ContentValues();
+        values.put(InventoryEntry.COLUMN_INVENTORY_NAME, "Earphone");
+        values.put(InventoryEntry.COLUMN_INVENTORY_QUANTITY, 5);
+        values.put(InventoryEntry.COLUMN_INVENTORY_PRICE, 1000);
+
+        getContentResolver().insert(InventoryEntry.CONTENT_URI, values);
     }
 
     @Override

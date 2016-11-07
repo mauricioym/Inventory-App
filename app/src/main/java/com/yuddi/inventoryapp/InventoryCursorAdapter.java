@@ -9,6 +9,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.yuddi.inventoryapp.data.InventoryContract.InventoryEntry;
+
+import java.text.NumberFormat;
+
 /**
  * Created by Mauricio on 11/7/2016.
  */
@@ -34,6 +38,9 @@ public class InventoryCursorAdapter extends CursorAdapter {
 
             }
         });
+        holder.nameColumnIndex = cursor.getColumnIndexOrThrow(InventoryEntry.COLUMN_INVENTORY_NAME);
+        holder.quantityColumnIndex = cursor.getColumnIndexOrThrow(InventoryEntry.COLUMN_INVENTORY_QUANTITY);
+        holder.priceColumnIndex = cursor.getColumnIndexOrThrow(InventoryEntry.COLUMN_INVENTORY_PRICE);
 
         view.setTag(holder);
 
@@ -45,9 +52,13 @@ public class InventoryCursorAdapter extends CursorAdapter {
 
         ViewHolder holder = (ViewHolder) view.getTag();
 
-        holder.name.setText("");
-        holder.quantity.setText("");
-        holder.price.setText("");
+        String productName = cursor.getString(holder.nameColumnIndex);
+        int quantity = cursor.getInt(holder.quantityColumnIndex);
+        float price = cursor.getInt(holder.priceColumnIndex) / 100f;
+
+        holder.name.setText(productName);
+        holder.quantity.setText(context.getString(R.string.stock_quantity, quantity));
+        holder.price.setText(NumberFormat.getCurrencyInstance().format(price));
     }
 
     private static class ViewHolder {
@@ -55,6 +66,10 @@ public class InventoryCursorAdapter extends CursorAdapter {
         TextView quantity;
         TextView price;
         Button sale;
+
+        int nameColumnIndex;
+        int quantityColumnIndex;
+        int priceColumnIndex;
     }
 
 }
