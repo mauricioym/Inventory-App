@@ -24,4 +24,7 @@
     <string name="sale_was_made">Sale was made</string>
     <string name="sale_was_cancelled">Sale was cancelled</string>
     <string name="not_enough">Not enough in stock</string>
+    <string name="shipment_received">Shipment received.</string>
+    <string name="no_shipment_received">No shipment received.</string>
+    <string name="shipment_cancelled">Shipment was cancelled.</string>
 </resources>

@@ -70,6 +70,14 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             }
         });
 
+        Button shipmentButton = (Button) findViewById(R.id.detail_shipment_button);
+        shipmentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showShipmentAlertDialog();
+            }
+        });
+
     }
 
     @Override
@@ -228,7 +236,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         EditText quantityEditText = (EditText)((AlertDialog) dialogInterface).findViewById(R.id.dialog_quantity_edittext);
-                        int quantityForSale = Integer.parseInt(quantityEditText.getText().toString());
+                        String quantityText = quantityEditText.getText().toString();
+                        int quantityForSale = quantityText.isEmpty() ? 0 : Integer.parseInt(quantityText);
 
                         if (quantityForSale <= mQuantity) {
                             int newQuantity = mQuantity - quantityForSale;
@@ -251,6 +260,45 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Toast.makeText(DetailActivity.this, R.string.sale_was_cancelled, Toast.LENGTH_SHORT).show();
+                        dialogInterface.cancel();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void showShipmentAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
+        builder.setTitle("Shipment")
+                .setView(getLayoutInflater().inflate(R.layout.sale_shipment_dialog, null))
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        EditText quantityEditText = (EditText)((AlertDialog) dialogInterface).findViewById(R.id.dialog_quantity_edittext);
+                        String quantityText = quantityEditText.getText().toString();
+                        int quantity = quantityText.isEmpty() ? 0 : Integer.parseInt(quantityText);
+
+                        if (quantity > 0) {
+                            int newQuantity = mQuantity + quantity;
+
+                            ContentValues values = new ContentValues();
+                            values.put(InventoryEntry.COLUMN_INVENTORY_QUANTITY, newQuantity);
+                            getContentResolver().update(mCurrentProductUri, values, null, null);
+
+                            mQuantityTextView.setText(String.valueOf(newQuantity));
+
+                            Toast.makeText(DetailActivity.this, R.string.shipment_received, Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            Toast.makeText(DetailActivity.this, R.string.no_shipment_received, Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(DetailActivity.this, R.string.shipment_cancelled, Toast.LENGTH_SHORT).show();
                         dialogInterface.cancel();
                     }
                 });
