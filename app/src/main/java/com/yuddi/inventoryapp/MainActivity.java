@@ -1,7 +1,6 @@
 package com.yuddi.inventoryapp;
 
 import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -60,9 +59,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             case R.id.action_add_product:
                 addProduct();
                 return true;
-            case R.id.action_insert_dummy_data:
-                insertDummyData();
-                return true;
             case R.id.action_delete_data:
                 deleteData();
                 return true;
@@ -75,16 +71,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Intent intent = new Intent(MainActivity.this, EditorActivity.class);
         startActivity(intent);
     }
-
-    private void insertDummyData() {
-        ContentValues values = new ContentValues();
-        values.put(InventoryEntry.COLUMN_INVENTORY_NAME, "Earphone");
-        values.put(InventoryEntry.COLUMN_INVENTORY_QUANTITY, 5);
-        values.put(InventoryEntry.COLUMN_INVENTORY_PRICE, 1000);
-
-        getContentResolver().insert(InventoryEntry.CONTENT_URI, values);
-    }
-
+    
     private void deleteData() {
         getContentResolver().delete(InventoryEntry.CONTENT_URI, null, null);
     }
