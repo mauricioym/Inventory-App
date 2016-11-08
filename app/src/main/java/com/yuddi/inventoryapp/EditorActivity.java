@@ -40,7 +40,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     private int oldQuantity = 0;
     private int oldPrice = 0;
     private String oldDescription = "";
-    private int oldPhone = 0;
+    private String oldPhone = "";
     private String oldEmail = "";
 
     private Bitmap picture;
@@ -48,13 +48,13 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     private int newQuantity;
     private int newPrice;
     private String newDescription;
-    private int newPhone;
+    private String newPhone;
     private String newEmail;
 
     private Uri mCurrentProductUri;
 
     private static final int PICK_IMAGE_REQUEST = 1;
-    private static final int EXISTING_PRODUCT_LOADER = 1;
+    private static final int EXISTING_PRODUCT_LOADER = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +128,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         switch (item.getItemId()) {
             case R.id.action_save:
                 saveProduct();
+                if (mCurrentProductUri != null) {
+                    goToDetail();
+                }
                 finish();
                 return true;
             case R.id.action_cancel:
@@ -138,29 +141,31 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         return super.onOptionsItemSelected(item);
     }
 
+    private void goToDetail() {
+        Intent intent = new Intent(EditorActivity.this, DetailActivity.class);
+        intent.setData(mCurrentProductUri);
+        startActivity(intent);
+    }
+
     private boolean productHasChanged() {
 
         newName = mNameEditText.getText().toString().trim();
 
         String quantityText = mQuantityEditText.getText().toString();
-        quantityText = quantityText.isEmpty() ? "0" : quantityText;
-        newQuantity = Integer.parseInt(quantityText);
+        newQuantity = quantityText.isEmpty() ? 0 : Integer.parseInt(quantityText);
 
         String priceText = mPriceEditText.getText().toString();
-        priceText = priceText.isEmpty() ? "0" : priceText;
-        newPrice = (int)(Float.parseFloat(priceText) * 100);
+        newPrice = priceText.isEmpty() ? 0 : (int)(Float.parseFloat(priceText) * 100);
 
         newDescription = mDescriptionEditText.getText().toString();
 
-        String phoneText = mPhoneEditText.getText().toString();
-        phoneText = phoneText.isEmpty() ? "0" : phoneText;
-        newPhone = Integer.parseInt(phoneText);
+        newPhone = mPhoneEditText.getText().toString();
 
         newEmail = mEmailEditText.getText().toString().trim();
 
         return (!newName.equals(oldName)) || (newQuantity != oldQuantity)
                 || (newPrice != oldPrice) || (!newDescription.equals(oldDescription))
-                || (newPhone != oldPhone) || (!newEmail.equals(oldEmail))
+                || (!newPhone.equals(oldPhone)) || (!newEmail.equals(oldEmail))
                 || imageChanged;
 
     }
@@ -182,8 +187,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
         if (mCurrentProductUri == null){
             // Add product
-            Uri newUri = getContentResolver().insert(InventoryEntry.CONTENT_URI, values);
-            if (newUri == null) {
+            mCurrentProductUri = getContentResolver().insert(InventoryEntry.CONTENT_URI, values);
+            if (mCurrentProductUri == null) {
                 Toast.makeText(this, R.string.editor_add_product_failed, Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, R.string.editor_add_product_successful, Toast.LENGTH_SHORT).show();
@@ -233,7 +238,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             oldQuantity = cursor.getInt(quantityColumnIndex);
             oldPrice = cursor.getInt(priceColumnIndex);
             oldDescription = cursor.getString(descriptionColumnIndex);
-            oldPhone = cursor.getInt(phoneColumnIndex);
+            oldPhone = cursor.getString(phoneColumnIndex);
             oldEmail = cursor.getString(emailColumnIndex);
             picture = convertToBitmap(cursor.getBlob(pictureColumnIndex));
 
@@ -241,7 +246,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             mQuantityEditText.setText(String.valueOf(oldQuantity));
             mPriceEditText.setText(String.valueOf(oldPrice / 100f));
             mDescriptionEditText.setText(oldDescription);
-            mPhoneEditText.setText(String.valueOf(oldPhone));
+            mPhoneEditText.setText(oldPhone);
             mEmailEditText.setText(oldEmail);
             if(picture != null) {
                 mPictureImageView.setImageBitmap(picture);

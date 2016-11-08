@@ -27,7 +27,7 @@
             android:text="Name"/>
 
         <TextView
-            android:id="@+id/detail_name_edittext"
+            android:id="@+id/detail_name_textview"
             style="@style/detail_value"
             tools:text="Earphone" />
 
@@ -36,7 +36,7 @@
             android:text="Quantity"/>
 
         <TextView
-            android:id="@+id/detail_quantity_edittext"
+            android:id="@+id/detail_quantity_textview"
             style="@style/detail_value"
             tools:text="5" />
 
@@ -45,34 +45,37 @@
             android:text="Price"/>
 
         <TextView
-            android:id="@+id/detail_price_edittext"
+            android:id="@+id/detail_price_textview"
             style="@style/detail_value"
             tools:text="$20.00" />
 
         <TextView
+            android:id="@+id/detail_description_label"
             style="@style/detail_field_label"
             android:text="Description"/>
 
         <TextView
-            android:id="@+id/detail_description_edittext"
+            android:id="@+id/detail_description_textview"
             style="@style/detail_value"
             tools:text="Description" />
 
         <TextView
+            android:id="@+id/detail_phone_label"
             style="@style/detail_field_label"
             android:text="Supplier's phone"/>
 
         <TextView
-            android:id="@+id/detail_phone_edittext"
+            android:id="@+id/detail_phone_textview"
             style="@style/detail_value"
             tools:text="000000" />
 
         <TextView
+            android:id="@+id/detail_email_label"
             style="@style/detail_field_label"
             android:text="Supplier's email"/>
 
         <TextView
-            android:id="@+id/detail_email_edittext"
+            android:id="@+id/detail_email_textview"
             style="@style/detail_value"
             tools:text="name@supplier.com" />
 
@@ -84,8 +87,10 @@
             android:layout_marginTop="24dp">
 
             <Button
+                android:id="@+id/detail_order_button"
                 style="@style/detail_button"
-                android:text="Order"/>
+                android:text="Order"
+                android:enabled="false"/>
 
             <Button
                 style="@style/detail_button"
