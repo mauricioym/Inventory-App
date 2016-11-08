@@ -33,6 +33,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mCursorAdapter = new InventoryCursorAdapter(this, null);
         productList.setAdapter(mCursorAdapter);
 
+        View emptyView = findViewById(R.id.empty_view);
+        productList.setEmptyView(emptyView);
+
         productList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {

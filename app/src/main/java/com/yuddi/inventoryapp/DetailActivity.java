@@ -238,8 +238,10 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                         EditText quantityEditText = (EditText)((AlertDialog) dialogInterface).findViewById(R.id.dialog_quantity_edittext);
                         String quantityText = quantityEditText.getText().toString();
                         int quantityForSale = quantityText.isEmpty() ? 0 : Integer.parseInt(quantityText);
-
-                        if (quantityForSale <= mQuantity) {
+                        
+                        if (quantityForSale <= 0) {
+                            Toast.makeText(DetailActivity.this, R.string.no_sale_made, Toast.LENGTH_SHORT).show();
+                        } else if (quantityForSale <= mQuantity) {
                             int newQuantity = mQuantity - quantityForSale;
 
                             ContentValues values = new ContentValues();
