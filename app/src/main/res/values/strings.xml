@@ -32,4 +32,5 @@
     <string name="get_started">Get started by adding a product.</string>
     <string name="no_sale_made">No sale made</string>
     <string name="delete_all">Delete all</string>
+    <string name="delete_all_data">Delete all data?</string>
 </resources>
