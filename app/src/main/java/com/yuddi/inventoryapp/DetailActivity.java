@@ -2,11 +2,16 @@ package com.yuddi.inventoryapp;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,7 +25,7 @@ import com.yuddi.inventoryapp.data.InventoryContract.InventoryEntry;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private ImageView mPictureImageView;
     private EditText mNameEditText;
@@ -38,7 +43,7 @@ public class DetailActivity extends AppCompatActivity {
     private int oldPhone = 0;
     private String oldEmail = "";
 
-    private Bitmap newPicture;
+    private Bitmap picture;
     private String newName;
     private int newQuantity;
     private int newPrice;
@@ -46,14 +51,25 @@ public class DetailActivity extends AppCompatActivity {
     private int newPhone;
     private String newEmail;
 
+    private Uri mCurrentProductUri;
+
     private static final int PICK_IMAGE_REQUEST = 1;
+    private static final int EXISTING_PRODUCT_LOADER = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        setTitle(getString(R.string.add_product));
+        mCurrentProductUri = getIntent().getData();
+
+        if (mCurrentProductUri == null) {
+            setTitle(getString(R.string.add_product));
+            invalidateOptionsMenu();
+        } else {
+            setTitle(getString(R.string.product_detail));
+            getSupportLoaderManager().initLoader(EXISTING_PRODUCT_LOADER, null, this);
+        }
 
         mPictureImageView = (ImageView) findViewById(R.id.detail_picture_imageview);
         mNameEditText = (EditText) findViewById(R.id.detail_name_edittext);
@@ -85,8 +101,8 @@ public class DetailActivity extends AppCompatActivity {
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                newPicture = scaleBitmap(bitmap);
-                mPictureImageView.setImageBitmap(newPicture);
+                picture = scaleBitmap(bitmap);
+                mPictureImageView.setImageBitmap(picture);
                 mPictureImageView.setBackgroundColor(Color.TRANSPARENT);
                 imageChanged = true;
             } catch (IOException e) {
@@ -123,6 +139,16 @@ public class DetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        if (mCurrentProductUri == null) {
+            MenuItem menuItem = menu.findItem(R.id.action_delete);
+            menuItem.setVisible(false);
+        }
+        return true;
+    }
+
     private boolean productHasChanged() {
 
         newName = mNameEditText.getText().toString().trim();
@@ -157,7 +183,7 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         ContentValues values = new ContentValues();
-        values.put(InventoryEntry.COLUMN_INVENTORY_PICTURE, convertToByteArray(newPicture));
+        values.put(InventoryEntry.COLUMN_INVENTORY_PICTURE, convertToByteArray(picture));
         values.put(InventoryEntry.COLUMN_INVENTORY_NAME, newName);
         values.put(InventoryEntry.COLUMN_INVENTORY_QUANTITY, newQuantity);
         values.put(InventoryEntry.COLUMN_INVENTORY_PRICE, newPrice);
@@ -165,18 +191,101 @@ public class DetailActivity extends AppCompatActivity {
         values.put(InventoryEntry.COLUMN_INVENTORY_SUPPLIER_PHONE, newPhone);
         values.put(InventoryEntry.COLUMN_INVENTORY_SUPPLIER_EMAIL, newEmail);
 
-        Uri newUri = getContentResolver().insert(InventoryEntry.CONTENT_URI, values);
-        if (newUri == null) {
-            Toast.makeText(this, R.string.detail_add_product_failed, Toast.LENGTH_SHORT).show();
+        if (mCurrentProductUri == null){
+            // Add product
+            Uri newUri = getContentResolver().insert(InventoryEntry.CONTENT_URI, values);
+            if (newUri == null) {
+                Toast.makeText(this, R.string.detail_add_product_failed, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, R.string.detail_add_product_successful, Toast.LENGTH_SHORT).show();
+            }
         } else {
-            Toast.makeText(this, R.string.detail_add_product_successful, Toast.LENGTH_SHORT).show();
+            // Product details
+            int rowsUpdated = getContentResolver().update(mCurrentProductUri, values, null, null);
+            if (rowsUpdated == 0) {
+                Toast.makeText(this, R.string.detail_edit_product_failed, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, R.string.detail_edit_product_successful, Toast.LENGTH_SHORT).show();
+            }
+        }
+
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+
+        switch (id) {
+            case EXISTING_PRODUCT_LOADER:
+                return new CursorLoader(
+                        this,
+                        mCurrentProductUri,
+                        null,
+                        null,
+                        null,
+                        null
+                );
+            default:
+                return null;
         }
     }
 
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        if (cursor.moveToFirst()) {
+            int nameColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_INVENTORY_NAME);
+            int quantityColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_INVENTORY_QUANTITY);
+            int priceColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_INVENTORY_PRICE);
+            int descriptionColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_INVENTORY_DESCRIPTION);
+            int phoneColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_INVENTORY_SUPPLIER_PHONE);
+            int emailColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_INVENTORY_SUPPLIER_EMAIL);
+            int pictureColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_INVENTORY_PICTURE);
+
+            oldName = cursor.getString(nameColumnIndex);
+            oldQuantity = cursor.getInt(quantityColumnIndex);
+            oldPrice = cursor.getInt(priceColumnIndex);
+            oldDescription = cursor.getString(descriptionColumnIndex);
+            oldPhone = cursor.getInt(phoneColumnIndex);
+            oldEmail = cursor.getString(emailColumnIndex);
+            picture = convertToBitmap(cursor.getBlob(pictureColumnIndex));
+
+            mNameEditText.setText(oldName);
+            mQuantityEditText.setText(String.valueOf(oldQuantity));
+            mPriceEditText.setText(String.valueOf(oldPrice / 100f));
+            mDescriptionEditText.setText(oldDescription);
+            mPhoneEditText.setText(String.valueOf(oldPhone));
+            mEmailEditText.setText(oldEmail);
+            if(picture != null) {
+                mPictureImageView.setImageBitmap(picture);
+                mPictureImageView.setBackgroundColor(Color.TRANSPARENT);
+            }
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mNameEditText.setText("");
+        mQuantityEditText.setText("");
+        mPriceEditText.setText("");
+        mDescriptionEditText.setText("");
+        mPhoneEditText.setText("");
+        mEmailEditText.setText("");
+        mPictureImageView.setImageBitmap(null);
+    }
+
     private byte[] convertToByteArray(Bitmap bitmap) {
+        if (bitmap == null) {
+            return null;
+        }
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
         return stream.toByteArray();
+    }
+
+    private Bitmap convertToBitmap(byte[] bytes) {
+        if (bytes == null) {
+            return null;
+        }
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 
 }

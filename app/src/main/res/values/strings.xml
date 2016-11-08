@@ -8,4 +8,7 @@
     <string name="action_delete">Delete</string>
     <string name="detail_add_product_failed">Failed to add product.</string>
     <string name="detail_add_product_successful">Product added.</string>
+    <string name="product_detail">Product Detail</string>
+    <string name="detail_edit_product_failed">Error with updating product</string>
+    <string name="detail_edit_product_successful">Product updated</string>
 </resources>
