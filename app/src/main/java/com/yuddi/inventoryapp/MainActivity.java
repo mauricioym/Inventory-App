@@ -9,7 +9,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         productList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                Intent intent = new Intent(MainActivity.this, EditorActivity.class);
                 intent.setData(ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, id));
                 startActivity(intent);
             }
@@ -70,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     private void addProduct() {
-        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+        Intent intent = new Intent(MainActivity.this, EditorActivity.class);
         startActivity(intent);
     }
 

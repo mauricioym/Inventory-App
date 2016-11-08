@@ -18,9 +18,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DetailActivity"
+            android:name=".EditorActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/DetailTheme"
+            android:theme="@style/EditorTheme"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

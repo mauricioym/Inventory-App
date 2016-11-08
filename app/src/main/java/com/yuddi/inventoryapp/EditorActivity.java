@@ -27,7 +27,7 @@ import com.yuddi.inventoryapp.data.InventoryContract.InventoryEntry;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-public class DetailActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private ImageView mPictureImageView;
     private EditText mNameEditText;
@@ -61,7 +61,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.activity_editor);
 
         mCurrentProductUri = getIntent().getData();
 
@@ -69,17 +69,17 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             setTitle(getString(R.string.add_product));
             invalidateOptionsMenu();
         } else {
-            setTitle(getString(R.string.product_detail));
+            setTitle(getString(R.string.edit_product_label));
             getSupportLoaderManager().initLoader(EXISTING_PRODUCT_LOADER, null, this);
         }
 
-        mPictureImageView = (ImageView) findViewById(R.id.detail_picture_imageview);
-        mNameEditText = (EditText) findViewById(R.id.detail_name_edittext);
-        mQuantityEditText = (EditText) findViewById(R.id.detail_quantity_edittext);
-        mPriceEditText = (EditText) findViewById(R.id.detail_price_edittext);
-        mDescriptionEditText = (EditText) findViewById(R.id.detail_description_edittext);
-        mPhoneEditText = (EditText) findViewById(R.id.detail_phone_edittext);
-        mEmailEditText = (EditText) findViewById(R.id.detail_email_edittext);
+        mPictureImageView = (ImageView) findViewById(R.id.editor_picture_imageview);
+        mNameEditText = (EditText) findViewById(R.id.editor_name_edittext);
+        mQuantityEditText = (EditText) findViewById(R.id.editor_quantity_edittext);
+        mPriceEditText = (EditText) findViewById(R.id.editor_price_edittext);
+        mDescriptionEditText = (EditText) findViewById(R.id.editor_description_edittext);
+        mPhoneEditText = (EditText) findViewById(R.id.editor_phone_edittext);
+        mEmailEditText = (EditText) findViewById(R.id.editor_email_edittext);
 
         mPictureImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,7 +122,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_detail, menu);
+        getMenuInflater().inflate(R.menu.menu_editor, menu);
         return true;
     }
 
@@ -197,17 +197,17 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             // Add product
             Uri newUri = getContentResolver().insert(InventoryEntry.CONTENT_URI, values);
             if (newUri == null) {
-                Toast.makeText(this, R.string.detail_add_product_failed, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.editor_add_product_failed, Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, R.string.detail_add_product_successful, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.editor_add_product_successful, Toast.LENGTH_SHORT).show();
             }
         } else {
-            // Product details
+            // Edit Product
             int rowsUpdated = getContentResolver().update(mCurrentProductUri, values, null, null);
             if (rowsUpdated == 0) {
-                Toast.makeText(this, R.string.detail_edit_product_failed, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.editor_edit_product_failed, Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, R.string.detail_edit_product_successful, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.editor_edit_product_successful, Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -239,9 +239,9 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         if (mCurrentProductUri != null) {
             int rowsDeleted = getContentResolver().delete(mCurrentProductUri, null, null);
             if (rowsDeleted == 0) {
-                Toast.makeText(this, R.string.detail_delete_product_failed, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.editor_delete_product_failed, Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, R.string.detail_delete_product_successful, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.editor_delete_product_successful, Toast.LENGTH_SHORT).show();
                 finish();
             }
         }

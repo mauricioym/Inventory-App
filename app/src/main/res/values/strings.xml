@@ -6,14 +6,14 @@
     <string name="add_product">Add Product</string>
     <string name="action_save">Save</string>
     <string name="action_delete">Delete</string>
-    <string name="detail_add_product_failed">Failed to add product.</string>
-    <string name="detail_add_product_successful">Product added.</string>
-    <string name="product_detail">Product Detail</string>
-    <string name="detail_edit_product_failed">Error with updating product</string>
-    <string name="detail_edit_product_successful">Product updated</string>
+    <string name="editor_add_product_failed">Failed to add product.</string>
+    <string name="editor_add_product_successful">Product added.</string>
+    <string name="edit_product_label">Edit Product</string>
+    <string name="editor_edit_product_failed">Error with updating product</string>
+    <string name="editor_edit_product_successful">Product updated</string>
     <string name="delete_dialog_msg">Delete this product?</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
-    <string name="detail_delete_product_failed">Error with deleting product.</string>
-    <string name="detail_delete_product_successful">Product deleted.</string>
+    <string name="editor_delete_product_failed">Error with deleting product.</string>
+    <string name="editor_delete_product_successful">Product deleted.</string>
 </resources>

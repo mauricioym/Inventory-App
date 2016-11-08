@@ -4,9 +4,9 @@
     <color name="colorPrimaryDark">#5D4037</color>
     <color name="colorAccent">#FFC107</color>
 
-    <color name="detailColorPrimary">#4CAF50</color>
-    <color name="detailColorPrimaryDark">#388E3C</color>
-    <color name="detailColorAccent">#FF9800</color>
+    <color name="editorColorPrimary">#4CAF50</color>
+    <color name="editorColorPrimaryDark">#388E3C</color>
+    <color name="editorColorAccent">#FF9800</color>
     <color name="primaryTextColor">#212121</color>
     <color name="secondaryTextColor">#757575</color>
 </resources>

@@ -9,22 +9,22 @@
     </style>
 
     <!-- Theme for the detail activity -->
-    <style name="DetailTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/detailColorPrimary</item>
-        <item name="colorPrimaryDark">@color/detailColorPrimaryDark</item>
-        <item name="colorAccent">@color/detailColorAccent</item>
+    <style name="EditorTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/editorColorPrimary</item>
+        <item name="colorPrimaryDark">@color/editorColorPrimaryDark</item>
+        <item name="colorAccent">@color/editorColorAccent</item>
     </style>
 
-    <style name="detail_field_label">
+    <style name="editor_field_label">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textAppearance">?android:textAppearanceSmall</item>
         <item name="android:textColor">@color/secondaryTextColor</item>
-        <item name="android:layout_marginTop">@dimen/detail_fields_spacing</item>
+        <item name="android:layout_marginTop">@dimen/editor_fields_spacing</item>
     </style>
 
-    <style name="detail_edit_text">
+    <style name="editor_edit_text">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">sans-serif-light</item>
