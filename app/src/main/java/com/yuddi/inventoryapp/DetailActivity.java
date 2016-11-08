@@ -1,5 +1,6 @@
 package com.yuddi.inventoryapp;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -16,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +38,10 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     private String mPhone;
     private String mEmail;
     private String mProductName;
+    private int mQuantity;
+
+    private TextView mQuantityTextView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +52,21 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
         getSupportLoaderManager().initLoader(EXISTING_PRODUCT_LOADER, null, this);
 
+        mQuantityTextView = (TextView) findViewById(R.id.detail_quantity_textview);
+
         mOrderButton = (Button) findViewById(R.id.detail_order_button);
         mOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 orderButtonClicked();
+            }
+        });
+
+        Button saleButton = (Button) findViewById(R.id.detail_sale_button);
+        saleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showSaleAlertDialog();
             }
         });
 
@@ -115,8 +131,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             int emailColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_INVENTORY_SUPPLIER_EMAIL);
 
             Bitmap picture = convertToBitmap(cursor.getBlob(pictureColumnIndex));
-            String name = cursor.getString(nameColumnIndex);
-            int quantity = cursor.getInt(quantityColumnIndex);
+            mProductName = cursor.getString(nameColumnIndex);
+            mQuantity = cursor.getInt(quantityColumnIndex);
             int price = cursor.getInt(priceColumnIndex);
             String description = cursor.getString(descriptionColumnIndex);
             String phone = cursor.getString(phoneColumnIndex);
@@ -134,8 +150,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             TextView emailTextView = (TextView) findViewById(R.id.detail_email_textview);
 
             if (picture != null) pictureImageView.setImageBitmap(picture);
-            nameTextView.setText(name);
-            quantityTextView.setText(String.valueOf(quantity));
+            nameTextView.setText(mProductName);
+            quantityTextView.setText(String.valueOf(mQuantity));
             priceTextView.setText(NumberFormat.getCurrencyInstance().format(price / 100f));
             if (description == null || description.isEmpty()) {
                 descriptionLabel.setVisibility(View.GONE);
@@ -158,7 +174,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                 emailTextView.setText(email);
                 mOrderButton.setEnabled(true);
                 mEmail = email;
-                mProductName = name;
             }
 
         }
@@ -169,7 +184,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     public void onLoaderReset(Loader<Cursor> loader) {
         ImageView pictureImageView = (ImageView) findViewById(R.id.detail_picture_imageview);
         TextView nameTextView = (TextView) findViewById(R.id.detail_name_textview);
-        TextView quantityTextView = (TextView) findViewById(R.id.detail_quantity_textview);
         TextView priceTextView = (TextView) findViewById(R.id.detail_price_textview);
         TextView descriptionTextView = (TextView) findViewById(R.id.detail_description_textview);
         TextView phoneTextView = (TextView) findViewById(R.id.detail_phone_textview);
@@ -177,7 +191,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
         pictureImageView.setImageBitmap(null);
         nameTextView.setText("");
-        quantityTextView.setText("");
+        mQuantityTextView.setText("");
         priceTextView.setText("");
         descriptionTextView.setText("");
         phoneTextView.setText("");
@@ -204,6 +218,44 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    private void showSaleAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
+        builder.setTitle("Sale")
+                .setView(getLayoutInflater().inflate(R.layout.sale_shipment_dialog, null))
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        EditText quantityEditText = (EditText)((AlertDialog) dialogInterface).findViewById(R.id.dialog_quantity_edittext);
+                        int quantityForSale = Integer.parseInt(quantityEditText.getText().toString());
+
+                        if (quantityForSale <= mQuantity) {
+                            int newQuantity = mQuantity - quantityForSale;
+
+                            ContentValues values = new ContentValues();
+                            values.put(InventoryEntry.COLUMN_INVENTORY_QUANTITY, newQuantity);
+                            getContentResolver().update(mCurrentProductUri, values, null, null);
+
+                            mQuantityTextView.setText(String.valueOf(newQuantity));
+
+                            Toast.makeText(DetailActivity.this, R.string.sale_was_made, Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            Toast.makeText(DetailActivity.this, R.string.not_enough, Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(DetailActivity.this, R.string.sale_was_cancelled, Toast.LENGTH_SHORT).show();
+                        dialogInterface.cancel();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void deleteProduct() {

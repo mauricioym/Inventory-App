@@ -93,10 +93,12 @@
                 android:enabled="false"/>
 
             <Button
+                android:id="@+id/detail_sale_button"
                 style="@style/detail_button"
                 android:text="Sale"/>
 
             <Button
+                android:id="@+id/detail_shipment_button"
                 style="@style/detail_button"
                 android:text="Shipment"/>
 

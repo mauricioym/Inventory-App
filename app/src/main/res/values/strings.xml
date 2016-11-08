@@ -21,4 +21,7 @@
     <string name="action_edit">Edit</string>
     <string name="order_by">Order by</string>
     <string name="error_ordering">Error on this ordering.</string>
+    <string name="sale_was_made">Sale was made</string>
+    <string name="sale_was_cancelled">Sale was cancelled</string>
+    <string name="not_enough">Not enough in stock</string>
 </resources>
