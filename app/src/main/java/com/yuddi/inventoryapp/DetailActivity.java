@@ -23,6 +23,8 @@ import android.widget.Toast;
 import com.yuddi.inventoryapp.data.InventoryContract.InventoryEntry;
 
 import java.text.NumberFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DetailActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -31,6 +33,9 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     private static final int EXISTING_PRODUCT_LOADER = 1;
 
     private Button mOrderButton;
+    private String mPhone;
+    private String mEmail;
+    private String mProductName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,12 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         getSupportLoaderManager().initLoader(EXISTING_PRODUCT_LOADER, null, this);
 
         mOrderButton = (Button) findViewById(R.id.detail_order_button);
+        mOrderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                orderButtonClicked();
+            }
+        });
 
     }
 
@@ -138,6 +149,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             } else {
                 phoneTextView.setText(String.valueOf(phone));
                 mOrderButton.setEnabled(true);
+                mPhone = phone;
             }
             if (email == null || email.isEmpty()) {
                 emailLabel.setVisibility(View.GONE);
@@ -145,6 +157,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             } else {
                 emailTextView.setText(email);
                 mOrderButton.setEnabled(true);
+                mEmail = email;
+                mProductName = name;
             }
 
         }
@@ -209,6 +223,61 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             return null;
         }
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    }
+
+    private void orderButtonClicked() {
+        final Map<String, Intent> intents = new HashMap<>();
+        final String PHONE_KEY = "Phone";
+        final String EMAIL_KEY = "Email";
+
+        if (mPhone != null) {
+            Intent phoneIntent = new Intent(Intent.ACTION_DIAL);
+            phoneIntent.setData(Uri.fromParts("tel", mPhone, null));
+
+            intents.put(PHONE_KEY, phoneIntent);
+        }
+        if (mEmail != null) {
+            Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+            emailIntent.setData(Uri.fromParts("mailto", mEmail, null));
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, mProductName);
+
+            intents.put(EMAIL_KEY, emailIntent);
+        }
+
+        if (intents.size() == 1) {
+            Intent intent;
+            if (intents.containsKey(PHONE_KEY)) {
+                intent = intents.get(PHONE_KEY);
+            } else {
+                intent = intents.get(EMAIL_KEY);
+            }
+
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
+            } else {
+                Toast.makeText(DetailActivity.this, R.string.error_ordering, Toast.LENGTH_SHORT).show();
+            }
+
+        } else if (intents.size() == 2) {
+
+            final String[] keys = new String[]{PHONE_KEY, EMAIL_KEY};
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
+            builder.setTitle(R.string.order_by)
+                    .setItems(keys, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent intent = intents.get(keys[i]);
+                            if (intent.resolveActivity(getPackageManager()) != null) {
+                                startActivity(intent);
+                            } else {
+                                Toast.makeText(DetailActivity.this, R.string.error_ordering, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }
     }
 
 }

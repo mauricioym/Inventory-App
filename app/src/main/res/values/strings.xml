@@ -19,4 +19,6 @@
     <string name="editor_delete_product_successful">Product deleted.</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_edit">Edit</string>
+    <string name="order_by">Order by</string>
+    <string name="error_ordering">Error on this ordering.</string>
 </resources>
