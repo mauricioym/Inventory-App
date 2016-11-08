@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yuddi.inventoryapp">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -18,18 +18,28 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".EditorActivity"
-            android:configChanges="orientation|screenSize"
-            android:theme="@style/EditorTheme"
+            android:name=".DetailActivity"
+            android:label="@string/product_detail_label"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+        <activity
+            android:name=".EditorActivity"
+            android:configChanges="orientation|screenSize"
+            android:parentActivityName=".DetailActivity"
+            android:theme="@style/EditorTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
         <provider
             android:name=".data.InventoryProvider"
             android:authorities="com.yuddi.inventoryapp"
             android:exported="false" />
+
     </application>
 
 </manifest>
