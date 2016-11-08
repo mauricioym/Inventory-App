@@ -20,6 +20,8 @@
             android:id="@+id/detail_picture_imageview"
             android:layout_width="160dp"
             android:layout_height="120dp"
+            android:src="@drawable/ic_add_photo"
+            android:scaleType="centerInside"
             android:background="#D1D1D1"/>
 
         <TextView
