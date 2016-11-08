@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.yuddi.inventoryapp.DetailActivity">
+
     <LinearLayout
         android:id="@+id/activity_detail"
         android:layout_width="match_parent"
@@ -16,6 +17,7 @@
         android:orientation="vertical">
 
         <ImageView
+            android:id="@+id/detail_picture_imageview"
             android:layout_width="160dp"
             android:layout_height="120dp"
             android:background="#D1D1D1"/>
@@ -25,7 +27,9 @@
             android:text="Name"/>
 
         <EditText
+            android:id="@+id/detail_name_edittext"
             style="@style/detail_edit_text"
+            android:inputType="textCapSentences"
             android:hint="Name" />
 
         <TextView
@@ -33,7 +37,9 @@
             android:text="Quantity"/>
 
         <EditText
+            android:id="@+id/detail_quantity_edittext"
             style="@style/detail_edit_text"
+            android:inputType="number"
             android:hint="0" />
 
         <TextView
@@ -41,7 +47,9 @@
             android:text="Price"/>
 
         <EditText
+            android:id="@+id/detail_price_edittext"
             style="@style/detail_edit_text"
+            android:inputType="numberDecimal"
             android:hint="$0.00" />
 
         <TextView
@@ -49,7 +57,9 @@
             android:text="Description"/>
 
         <EditText
+            android:id="@+id/detail_description_edittext"
             style="@style/detail_edit_text"
+            android:inputType="textMultiLine"
             android:hint="Description" />
 
         <TextView
@@ -57,7 +67,9 @@
             android:text="Supplier's phone"/>
 
         <EditText
+            android:id="@+id/detail_phone_edittext"
             style="@style/detail_edit_text"
+            android:inputType="phone"
             android:hint="000000" />
 
         <TextView
@@ -65,8 +77,11 @@
             android:text="Supplier's email"/>
 
         <EditText
+            android:id="@+id/detail_email_edittext"
             style="@style/detail_edit_text"
-            android:hint="Description" />
+            android:inputType="textEmailAddress"
+            android:hint="name@supplier.com" />
 
     </LinearLayout>
+
 </ScrollView>
