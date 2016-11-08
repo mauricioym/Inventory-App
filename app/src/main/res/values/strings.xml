@@ -17,4 +17,6 @@
     <string name="cancel">Cancel</string>
     <string name="editor_delete_product_failed">Error with deleting product.</string>
     <string name="editor_delete_product_successful">Product deleted.</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_edit">Edit</string>
 </resources>

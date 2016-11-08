@@ -28,11 +28,7 @@
         <activity
             android:name=".EditorActivity"
             android:configChanges="orientation|screenSize"
-            android:parentActivityName=".DetailActivity"
             android:theme="@style/EditorTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
         </activity>
 
         <provider

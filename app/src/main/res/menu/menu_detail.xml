@@ -5,16 +5,15 @@
     tools:context=".EditorActivity">
 
     <item
-        android:id="@+id/action_save"
-        android:title="@string/action_save"
-        android:icon="@drawable/ic_action_done"
+        android:id="@+id/action_edit"
+        android:title="@string/action_edit"
+        android:icon="@drawable/ic_action_edit"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_cancel"
-        android:title="@string/action_cancel"
-        android:icon="@drawable/ic_action_cancel"
+        android:id="@+id/action_delete"
+        android:title="@string/action_delete"
+        android:icon="@drawable/ic_action_delete"
         app:showAsAction="ifRoom" />
-
 
 </menu>
