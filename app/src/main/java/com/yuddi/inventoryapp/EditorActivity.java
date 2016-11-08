@@ -187,19 +187,27 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
         if (mCurrentProductUri == null){
             // Add product
-            mCurrentProductUri = getContentResolver().insert(InventoryEntry.CONTENT_URI, values);
-            if (mCurrentProductUri == null) {
-                Toast.makeText(this, R.string.editor_add_product_failed, Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, R.string.editor_add_product_successful, Toast.LENGTH_SHORT).show();
+            try {
+                mCurrentProductUri = getContentResolver().insert(InventoryEntry.CONTENT_URI, values);
+                if (mCurrentProductUri == null) {
+                    Toast.makeText(this, R.string.editor_add_product_failed, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, R.string.editor_add_product_successful, Toast.LENGTH_SHORT).show();
+                }
+            } catch (IllegalArgumentException e) {
+                Toast.makeText(this, getString(R.string.failed, e.getMessage()), Toast.LENGTH_SHORT).show();
             }
         } else {
             // Edit Product
-            int rowsUpdated = getContentResolver().update(mCurrentProductUri, values, null, null);
-            if (rowsUpdated == 0) {
-                Toast.makeText(this, R.string.editor_edit_product_failed, Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, R.string.editor_edit_product_successful, Toast.LENGTH_SHORT).show();
+            try {
+                int rowsUpdated = getContentResolver().update(mCurrentProductUri, values, null, null);
+                if (rowsUpdated == 0) {
+                    Toast.makeText(this, R.string.editor_edit_product_failed, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, R.string.editor_edit_product_successful, Toast.LENGTH_SHORT).show();
+                }
+            } catch (IllegalArgumentException e) {
+                Toast.makeText(this, getString(R.string.failed, e.getMessage()), Toast.LENGTH_SHORT).show();
             }
         }
 

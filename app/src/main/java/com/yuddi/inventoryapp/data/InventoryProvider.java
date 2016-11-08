@@ -91,8 +91,21 @@ public class InventoryProvider extends ContentProvider {
     }
     
     private Uri insertProduct(Uri uri, ContentValues values) {
-        
-        // TODO Perform data validation
+
+        String name = values.getAsString(InventoryEntry.COLUMN_INVENTORY_NAME);
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("Product requires a name");
+        }
+
+        Integer quantity = values.getAsInteger(InventoryEntry.COLUMN_INVENTORY_QUANTITY);
+        if (quantity != null && quantity < 0) {
+            throw new IllegalArgumentException("Quantity should be positive or zero");
+        }
+
+        Integer price = values.getAsInteger(InventoryEntry.COLUMN_INVENTORY_PRICE);
+        if (price != null && price <= 0) {
+            throw new IllegalArgumentException("Price should be positive");
+        }
         
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
         long rowId = database.insert(InventoryEntry.TABLE_NAME, null, values);
@@ -158,7 +171,26 @@ public class InventoryProvider extends ContentProvider {
             return 0;
         }
 
-        // TODO Perform data validation
+        if (values.containsKey(InventoryEntry.COLUMN_INVENTORY_NAME)) {
+            String name = values.getAsString(InventoryEntry.COLUMN_INVENTORY_NAME);
+            if (name == null || name.isEmpty()) {
+                throw new IllegalArgumentException("Product requires a name");
+            }
+        }
+
+        if (values.containsKey(InventoryEntry.COLUMN_INVENTORY_QUANTITY)) {
+            Integer quantity = values.getAsInteger(InventoryEntry.COLUMN_INVENTORY_QUANTITY);
+            if (quantity != null && quantity < 0) {
+                throw new IllegalArgumentException("Quantity should be positive or zero");
+            }
+        }
+
+        if (values.containsKey(InventoryEntry.COLUMN_INVENTORY_PRICE)) {
+            Integer price = values.getAsInteger(InventoryEntry.COLUMN_INVENTORY_PRICE);
+            if (price != null && price <= 0) {
+                throw new IllegalArgumentException("Price should be positive");
+            }
+        }
 
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
         return database.update(InventoryEntry.TABLE_NAME, values, selection, selectionArgs);

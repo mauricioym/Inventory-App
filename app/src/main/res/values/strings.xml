@@ -27,4 +27,5 @@
     <string name="shipment_received">Shipment received.</string>
     <string name="no_shipment_received">No shipment received.</string>
     <string name="shipment_cancelled">Shipment was cancelled.</string>
+    <string name="failed">"Failed. "<xliff:g id="error_message">%s</xliff:g></string>
 </resources>
