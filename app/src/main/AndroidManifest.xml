@@ -19,7 +19,7 @@
         </activity>
         <activity
             android:name=".DetailActivity"
-            android:label="@string/product_detail_label"
+            android:label="@string/title_product_detail"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -30,12 +30,10 @@
             android:configChanges="orientation|screenSize"
             android:theme="@style/EditorTheme">
         </activity>
-
         <provider
             android:name=".data.InventoryProvider"
             android:authorities="com.yuddi.inventoryapp"
             android:exported="false" />
-
     </application>
 
 </manifest>

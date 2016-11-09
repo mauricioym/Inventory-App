@@ -207,16 +207,14 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     }
 
     private void showDeleteConfirmationDialog() {
-        // Create an AlertDialog.Builder and set the message, and click listeners
-        // for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.delete_dialog_msg);
-        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.dialog_delete_message);
+        builder.setPositiveButton(R.string.dialog_delete_button, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 deleteProduct();
             }
         });
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.dialog_cancel_button, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 if (dialog != null) {
                     dialog.dismiss();
@@ -230,9 +228,9 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
     private void showSaleAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
-        builder.setTitle("Sale")
+        builder.setTitle(R.string.dialog_sale_title)
                 .setView(getLayoutInflater().inflate(R.layout.sale_shipment_dialog, null))
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.dialog_ok_button, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         EditText quantityEditText = (EditText)((AlertDialog) dialogInterface).findViewById(R.id.dialog_quantity_edittext);
@@ -240,7 +238,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                         int quantityForSale = quantityText.isEmpty() ? 0 : Integer.parseInt(quantityText);
                         
                         if (quantityForSale <= 0) {
-                            Toast.makeText(DetailActivity.this, R.string.no_sale_made, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DetailActivity.this, R.string.toast_no_sale_made, Toast.LENGTH_SHORT).show();
                         } else if (quantityForSale <= mQuantity) {
                             int newQuantity = mQuantity - quantityForSale;
 
@@ -250,18 +248,18 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
                             mQuantityTextView.setText(String.valueOf(newQuantity));
 
-                            Toast.makeText(DetailActivity.this, R.string.sale_was_made, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DetailActivity.this, R.string.toast_sale_was_made, Toast.LENGTH_SHORT).show();
 
                         } else {
-                            Toast.makeText(DetailActivity.this, R.string.not_enough, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DetailActivity.this, R.string.toast_not_enough, Toast.LENGTH_SHORT).show();
                         }
 
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.dialog_cancel_button, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(DetailActivity.this, R.string.sale_was_cancelled, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DetailActivity.this, R.string.toast_sale_was_cancelled, Toast.LENGTH_SHORT).show();
                         dialogInterface.cancel();
                     }
                 });
@@ -271,9 +269,9 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
     private void showShipmentAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
-        builder.setTitle("Shipment")
+        builder.setTitle(R.string.dialog_shipment_title)
                 .setView(getLayoutInflater().inflate(R.layout.sale_shipment_dialog, null))
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.dialog_ok_button, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         EditText quantityEditText = (EditText)((AlertDialog) dialogInterface).findViewById(R.id.dialog_quantity_edittext);
@@ -289,18 +287,18 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
                             mQuantityTextView.setText(String.valueOf(newQuantity));
 
-                            Toast.makeText(DetailActivity.this, R.string.shipment_received, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DetailActivity.this, R.string.toast_shipment_received, Toast.LENGTH_SHORT).show();
 
                         } else {
-                            Toast.makeText(DetailActivity.this, R.string.no_shipment_received, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DetailActivity.this, R.string.toast_no_shipment_received, Toast.LENGTH_SHORT).show();
                         }
 
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.dialog_cancel_button, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(DetailActivity.this, R.string.shipment_cancelled, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DetailActivity.this, R.string.toast_shipment_cancelled, Toast.LENGTH_SHORT).show();
                         dialogInterface.cancel();
                     }
                 });

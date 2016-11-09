@@ -51,14 +51,14 @@ public class InventoryCursorAdapter extends CursorAdapter {
 
                     final CoordinatorLayout coordinatorLayout = (CoordinatorLayout) view.getRootView().findViewById(R.id.coordinator_layout);
                     Snackbar snackbar = Snackbar
-                            .make(coordinatorLayout, R.string.sale_was_made, Snackbar.LENGTH_LONG)
+                            .make(coordinatorLayout, R.string.toast_sale_was_made, Snackbar.LENGTH_LONG)
                             .setAction("Undo", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
                                     holder.quantity++;
                                     updateQuantity(context, holder);
 
-                                    Snackbar snackbar1 = Snackbar.make(coordinatorLayout, R.string.sale_was_cancelled, Snackbar.LENGTH_SHORT);
+                                    Snackbar snackbar1 = Snackbar.make(coordinatorLayout, R.string.toast_sale_was_cancelled, Snackbar.LENGTH_SHORT);
                                     snackbar1.show();
                                 }
                             });

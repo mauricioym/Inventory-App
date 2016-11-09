@@ -1,36 +1,132 @@
 <resources xmlns:xliff="http://schemas.android.com/tools">
+
+    <!-- Name for the application [CHAR LIMIT=12] -->
     <string name="app_name">Inventory App</string>
-    <string name="sale_button_text">Sale</string>
+
+    <!-- Title for the activity to add a new product -->
+    <string name="title_add_product">Add Product</string>
+
+    <!-- Title for the activity that shows product details -->
+    <string name="title_product_detail">Product Detail</string>
+
+
+    <!-- Label for menu option that adds a new product -->
     <string name="action_add_product">Add product</string>
-    <string name="stock_quantity">"Stock quantity: "<xliff:g example="5" id="quantity">%d</xliff:g></string>
-    <string name="add_product">Add Product</string>
+
+    <!-- Label for menu option that deletes all products -->
+    <string name="action_delete_all">Delete all</string>
+
+    <!-- Label for menu option to save product -->
     <string name="action_save">Save</string>
+
+    <!-- Label for menu option to cancel product insertion -->
+    <string name="action_cancel">Cancel</string>
+
+    <!-- Label for menu option to edit product -->
+    <string name="action_edit">Edit</string>
+
+    <!-- Label for menu option to delete product -->
     <string name="action_delete">Delete</string>
+
+
+    <!-- Title for sale alert dialog -->
+    <string name="dialog_sale_title">Sale</string>
+
+    <!-- Title for shipment alert dialog -->
+    <string name="dialog_shipment_title">Shipment</string>
+
+    <!-- Text for alert dialog to confirm deletion of all products -->
+    <string name="dialog_delete_all_message">Delete all data?</string>
+
+    <!-- Text for alert dialog to confirm deletion of a single product -->
+    <string name="dialog_delete_message">Delete this product?</string>
+
+    <!-- Label for delete button on alert dialogs to confirm deletion -->
+    <string name="dialog_delete_button">Delete</string>
+
+    <!-- Label for cancel button on alert dialogs -->
+    <string name="dialog_cancel_button">Cancel</string>
+
+    <!-- Label for ok button on alert dialogs -->
+    <string name="dialog_ok_button">OK</string>
+
+
+    <!-- Text that shows quantity on each list item -->
+    <string name="stock_quantity">"Stock quantity: "<xliff:g example="5" id="quantity">%d</xliff:g></string>
+
+
+    <!-- Label for Sale button on each list item -->
+    <string name="button_list_sale">Sale</string>
+
+    <!-- Label for Order button on detail activity -->
+    <string name="button_order">Order</string>
+
+    <!-- Label for Sale button on detail activity -->
+    <string name="button_sale">Sale</string>
+
+    <!-- Label for Shipment button on detail activity -->
+    <string name="button_shipment">Shipment</string>
+
+
+    <!-- Content description of the image view -->
+    <string name="product_picture">Product picture</string>
+
+    <!-- Label for name field on editor -->
+    <string name="field_name_label">Name</string>
+
+    <!-- Label for quantity field on editor -->
+    <string name="field_quantity_label">Quantity</string>
+
+    <!-- Label for price field on editor -->
+    <string name="field_price_label">Price</string>
+
+    <!-- Label for description field on editor -->
+    <string name="field_description_label">Description</string>
+
+    <!-- Label for supplier's phone field on editor -->
+    <string name="field_phone_label">Supplier\'s phone</string>
+
+    <!-- Label for supplier's email field on editor -->
+    <string name="field_email_label">Supplier\'s email</string>
+
+
+    <!-- Toast message in detail activity when sale quantity isn't positive -->
+    <string name="toast_no_sale_made">No sale made</string>
+
+    <!-- Toast message in detail activity when sale is made -->
+    <string name="toast_sale_was_made">Sale was made</string>
+
+    <!-- Toast message in detail activity when there is no stock enough -->
+    <string name="toast_not_enough">Not enough in stock</string>
+
+    <!-- Toast message in detail activity when the user cancels the sale -->
+    <string name="toast_sale_was_cancelled">Sale was cancelled</string>
+
+    <!-- Toast message in detail activity when the shipment is successful received -->
+    <string name="toast_shipment_received">Shipment received.</string>
+
+    <!-- Toast message in detail activity when no shipment is received -->
+    <string name="toast_no_shipment_received">No shipment received.</string>
+
+    <!-- Toast message in detail activity when the user cancels the shipment -->
+    <string name="toast_shipment_cancelled">Shipment was cancelled.</string>
+
+    <!-- Toast message  -->
+    <string name="editor_delete_product_failed">Error with deleting product.</string>
+
+
+
     <string name="editor_add_product_failed">Failed to add product.</string>
     <string name="editor_add_product_successful">Product added.</string>
     <string name="edit_product_label">Edit Product</string>
-    <string name="product_detail_label">Product Detail</string>
     <string name="editor_edit_product_failed">Error with updating product</string>
     <string name="editor_edit_product_successful">Product updated</string>
-    <string name="delete_dialog_msg">Delete this product?</string>
-    <string name="delete">Delete</string>
-    <string name="cancel">Cancel</string>
-    <string name="editor_delete_product_failed">Error with deleting product.</string>
+
     <string name="editor_delete_product_successful">Product deleted.</string>
-    <string name="action_cancel">Cancel</string>
-    <string name="action_edit">Edit</string>
     <string name="order_by">Order by</string>
     <string name="error_ordering">Error on this ordering.</string>
-    <string name="sale_was_made">Sale was made</string>
-    <string name="sale_was_cancelled">Sale was cancelled</string>
-    <string name="not_enough">Not enough in stock</string>
-    <string name="shipment_received">Shipment received.</string>
-    <string name="no_shipment_received">No shipment received.</string>
-    <string name="shipment_cancelled">Shipment was cancelled.</string>
     <string name="failed">"Failed. "<xliff:g id="error_message">%s</xliff:g></string>
     <string name="nothing_to_show">Nothing to show.</string>
     <string name="get_started">Get started by adding a product.</string>
-    <string name="no_sale_made">No sale made</string>
-    <string name="delete_all">Delete all</string>
-    <string name="delete_all_data">Delete all data?</string>
+
 </resources>

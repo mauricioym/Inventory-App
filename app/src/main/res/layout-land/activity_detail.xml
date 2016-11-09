@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,14 +9,13 @@
         android:id="@+id/activity_editor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:orientation="vertical">
+        android:paddingTop="@dimen/activity_vertical_margin">
 
-        <android.support.v7.widget.CardView
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             card_view:cardCornerRadius="4dp">
@@ -32,7 +30,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    tools:src="@drawable/ic_add_photo"/>
+                    android:contentDescription="@string/product_picture"
+                    tools:src="@drawable/ic_add_photo" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -47,7 +46,7 @@
 
                         <TextView
                             style="@style/detail_field_label"
-                            android:text="Name"/>
+                            android:text="@string/field_name_label" />
 
                         <TextView
                             android:id="@+id/detail_name_textview"
@@ -56,7 +55,7 @@
 
                         <TextView
                             style="@style/detail_field_label"
-                            android:text="Quantity"/>
+                            android:text="@string/field_quantity_label" />
 
                         <TextView
                             android:id="@+id/detail_quantity_textview"
@@ -65,7 +64,7 @@
 
                         <TextView
                             style="@style/detail_field_label"
-                            android:text="Price"/>
+                            android:text="@string/field_price_label" />
 
                         <TextView
                             android:id="@+id/detail_price_textview"
@@ -83,7 +82,7 @@
                         <TextView
                             android:id="@+id/detail_description_label"
                             style="@style/detail_field_label"
-                            android:text="Description"/>
+                            android:text="@string/field_description_label" />
 
                         <TextView
                             android:id="@+id/detail_description_textview"
@@ -93,7 +92,7 @@
                         <TextView
                             android:id="@+id/detail_phone_label"
                             style="@style/detail_field_label"
-                            android:text="Supplier's phone"/>
+                            android:text="@string/field_phone_label" />
 
                         <TextView
                             android:id="@+id/detail_phone_textview"
@@ -103,7 +102,7 @@
                         <TextView
                             android:id="@+id/detail_email_label"
                             style="@style/detail_field_label"
-                            android:text="Supplier's email"/>
+                            android:text="@string/field_email_label" />
 
                         <TextView
                             android:id="@+id/detail_email_textview"
@@ -111,7 +110,7 @@
                             tools:text="name@supplier.com" />
 
                     </LinearLayout>
-                    
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -121,24 +120,24 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="right">
+            android:gravity="end"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/detail_order_button"
                 style="@style/detail_button"
-                android:text="Order"
-                android:enabled="false"/>
+                android:enabled="false"
+                android:text="@string/button_order" />
 
             <Button
                 android:id="@+id/detail_sale_button"
                 style="@style/detail_button"
-                android:text="Sale"/>
+                android:text="@string/button_sale" />
 
             <Button
                 android:id="@+id/detail_shipment_button"
                 style="@style/detail_button"
-                android:text="Shipment"/>
+                android:text="@string/button_shipment" />
 
         </LinearLayout>
 

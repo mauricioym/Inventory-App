@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,79 +9,70 @@
         android:id="@+id/activity_editor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:orientation="vertical">
+        android:paddingTop="@dimen/activity_vertical_margin">
 
         <ImageView
             android:id="@+id/editor_picture_imageview"
-            android:layout_width="160dp"
-            android:layout_height="120dp"
-            android:src="@drawable/ic_add_photo"
-            android:scaleType="centerInside"
-            android:background="#D1D1D1"/>
+            style="@style/picture_style"
+            android:contentDescription="@string/product_picture" />
 
         <TextView
             style="@style/editor_field_label"
-            android:text="Name"/>
+            android:text="@string/field_name_label" />
 
         <EditText
             android:id="@+id/editor_name_edittext"
             style="@style/editor_edit_text"
-            android:inputType="textCapSentences"
-            android:hint="Name" />
+            android:inputType="textCapSentences" />
 
         <TextView
             style="@style/editor_field_label"
-            android:text="Quantity"/>
+            android:text="@string/field_quantity_label" />
 
         <EditText
             android:id="@+id/editor_quantity_edittext"
             style="@style/editor_edit_text"
-            android:inputType="number"
-            android:hint="0" />
+            android:inputType="number" />
 
         <TextView
             style="@style/editor_field_label"
-            android:text="Price"/>
+            android:text="@string/field_price_label" />
 
         <EditText
             android:id="@+id/editor_price_edittext"
             style="@style/editor_edit_text"
-            android:inputType="numberDecimal"
-            android:hint="$0.00" />
+            android:inputType="numberDecimal" />
 
         <TextView
             style="@style/editor_field_label"
-            android:text="Description"/>
+            android:text="@string/field_description_label" />
 
         <EditText
             android:id="@+id/editor_description_edittext"
             style="@style/editor_edit_text"
-            android:inputType="textMultiLine"
-            android:hint="Description" />
+            android:inputType="textMultiLine" />
 
         <TextView
             style="@style/editor_field_label"
-            android:text="Supplier's phone"/>
+            android:text="@string/field_phone_label" />
 
         <EditText
             android:id="@+id/editor_phone_edittext"
             style="@style/editor_edit_text"
-            android:inputType="phone"
-            android:hint="000000" />
+            android:inputType="phone" />
 
         <TextView
             style="@style/editor_field_label"
-            android:text="Supplier's email"/>
+            android:text="@string/field_email_label" />
 
         <EditText
             android:id="@+id/editor_email_edittext"
             style="@style/editor_edit_text"
-            android:inputType="textEmailAddress"
-            android:hint="name@supplier.com" />
+            android:inputType="textEmailAddress" />
 
     </LinearLayout>
 

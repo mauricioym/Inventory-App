@@ -48,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
-        android:text="@string/sale_button_text"
+        android:text="@string/button_list_sale"
         android:focusable="false"/>
 
 </LinearLayout>

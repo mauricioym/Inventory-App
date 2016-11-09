@@ -64,7 +64,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mCurrentProductUri = getIntent().getData();
 
         if (mCurrentProductUri == null) {
-            setTitle(getString(R.string.add_product));
+            setTitle(getString(R.string.title_add_product));
         } else {
             setTitle(getString(R.string.edit_product_label));
             getSupportLoaderManager().initLoader(EXISTING_PRODUCT_LOADER, null, this);
